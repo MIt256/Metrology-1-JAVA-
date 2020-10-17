@@ -1,0 +1,41 @@
+public void sort(int[] array) {
+        int n = array.length;
+        for (int i = 0; i < n; i ++) {
+            int minIndex = min(array, i, n - 1);
+            swap(array, i, minIndex);
+        }
+    }
+
+    public static void swap(int[] array, int i, int j) {
+        int temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+    public static int min(int[] array, int begin, int end) {
+        int minVal = array[begin];
+        int minIndex = begin;
+        for (int i = begin + 1; i <= end; i++) {
+            if (array[i] < minVal) {
+                minVal = array[i];
+                minIndex = i;
+            }
+        }
+        return minIndex;
+    }
+
+    public static int Esche_func(String args[]){
+        char grade = 'C';
+
+        switch(grade)
+        {
+            case 'A' :
+                System.out.println("!");
+                break;
+            case 'B' :
+                break;
+            default :
+                System.out.println("Bad");
+        }
+        System.out.println("Good " + grade);
+        return 0;
+    }

@@ -1,0 +1,227 @@
+package com.company;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Main {
+
+    static int [] canvas = {0,0,0,
+            0,0,0,
+            0,0,0};
+
+    public void sort(int[] array) {
+        int n = array.length;
+        for (int i = 0; i < n; i ++) {
+            int minIndex = min(array, i, n - 1);
+            swap(array, i, minIndex);
+        }
+    }
+
+    public static void swap(int[] array, int i, int j) {
+        int temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+    public static int min(int[] array, int begin, int end) {
+        int minVal = array[begin];
+        int minIndex = begin;
+        for (int i = begin + 1; i <= end; i++) {
+            if (array[i] < minVal) {
+                minVal = array[i];
+                minIndex = i;
+            }
+        }
+        return minIndex;
+    }
+
+    public static int Esche_func(String args[]){
+        char grade = 'C';
+
+        switch(grade)
+        {
+            case 'A' :
+                System.out.println("!");
+                break;
+            case 'B' :
+            case 'F' :
+                break;
+            default :
+                System.out.println("Bad");
+        }
+        System.out.println("Good " + grade);
+        return 0;
+    }
+
+
+    public static void quickSort(int[] source, int leftBorder, int rightBorder) {
+        int leftMarker = leftBorder;
+        int rightMarker = rightBorder;
+        int pivot = source[(leftMarker + rightMarker) / 2];
+        do {
+
+            while (source[leftMarker] < pivot) {
+                leftMarker++ ;
+            }
+
+            while (source[rightMarker] > pivot) {
+                rightMarker-- ;
+            }
+
+            if (leftMarker <= rightMarker) {
+                if (leftMarker < rightMarker) {
+                    int tmp = source[leftMarker];
+                    source[leftMarker] = source[rightMarker];
+                    source[rightMarker] = tmp;
+                }
+
+                leftMarker++ ;
+                rightMarker-- ;
+            }
+        } while (leftMarker <= rightMarker);
+
+        // Выполняем рекурсивно для частей
+        if (leftMarker < rightBorder) {
+            quickSort(source, leftMarker, rightBorder);
+        }
+        if (leftBorder < rightMarker) {
+            quickSort(source, leftBorder, rightMarker);
+        }
+    }
+
+    public static void selectionSort(int[] arr){
+
+        for (int i = 0; i < arr.length; i++) {
+            int min = arr[i];
+            int min_i = i;
+
+            for (int j = i+1; j < arr.length; j++) {
+                if (arr[j] < min) {
+                    min = arr[j];
+                    min_i = j;
+                }
+            }
+    
+            if (i != min_i) {
+                int tmp = arr[i];
+                arr[i] = arr[min_i];
+                arr[min_i] = tmp;
+            }
+        }
+    }
+
+    public static void main(String[] args){
+
+        boolean b;
+        boolean isCurrentX = false;
+        do {
+            isCurrentX = !isCurrentX;
+            drawCanvas();
+            System.out.println("mark " + (isCurrentX ? "X" : "O"));
+            int n = getNumber();
+            canvas[n] = isCurrentX ? 1 : 2;
+            b = !isGameOver(n);
+            if (isDraw()){
+                System.out.println("Draw");
+                return;
+            }
+        } while (b);
+        drawCanvas();
+        System.out.println();
+
+        System.out.println("The winner is " + (isCurrentX ? "X" : "O") + "!");
+    }
+
+    static int getNumber(){
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        while (true){
+            try {
+                int n = Integer.parseInt(reader.readLine());
+                if (n >= 0 && n < canvas.length && canvas[n]==0){
+                    return n;
+                }
+                System.out.println("Choose free cell and enter its number");
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter the number");
+            } catch (IOException e) {
+            }
+        }
+    }
+
+    static boolean isGameOver(int n){
+
+        int row = n-n%3;
+        if (canvas[row]==canvas[row+1] &&
+                canvas[row]==canvas[row+2]) return true;
+        int column = n%3;
+        if (canvas[column]==canvas[column+3])
+            if (canvas[column]==canvas[column+6]) return true;
+
+        if (n%2!=0) return false;
+        if (n%4==0){
+            if (canvas[0] == canvas[4] &&
+                    canvas[0] == canvas[8]) return true;
+            if (n!=4) return false;
+        }
+        return canvas[2] == canvas[4] &&
+                canvas[2] == canvas[6];
+    }
+    public static void sheiker_sort(String[] args)
+    {
+        int[] array = {3, 1, 5, 8, 1, 0, 6, 4, 6, 7};
+        int left = 0;
+        int right = array.length - 1;
+
+        do
+        {
+            for (int i = left; i < right; i++)
+            {
+                if(array[i] > array[i+1])
+                {
+                    array[i] ^= array[i+1];
+                    array[i+1] ^= array[i];
+                    array[i] ^= array[i+1];
+                }
+            }
+            right-- ;
+            for (int i = right; i > left ; i--)
+            {
+                if(array[i] < array[i-1])
+                {
+                    array[i] ^= array[i-1];
+                    array[i-1] ^= array[i];
+                    array[i] ^= array[i-1];
+                }
+            }
+            left++ ;
+        } while (left <= right);
+
+        for (int i : array) System.out.print(i + " ");
+    }
+
+
+    static void drawCanvas(){
+        System.out.println("     |     |     ");
+        for (int i = 0; i < canvas.length; i++) {
+            if (i!=0){
+                if (i%3==0) {
+                    System.out.println();
+                    System.out.println("_____|_____|_____");
+                    System.out.println("     |     |     ");
+                }
+                else
+                    System.out.print("|");
+            }
+
+            if (canvas[i]==0) System.out.print("  " + i + "  ");
+            if (canvas[i]==1) System.out.print("  X  ");
+            if (canvas[i]==2) System.out.print("  O  ");
+        }
+        System.out.println();
+        System.out.println("     |     |     ");
+    }
+
+    public static boolean isDraw() {
+        for (int n : canvas) if (n==0) return false;
+        return true;
+    }
+}

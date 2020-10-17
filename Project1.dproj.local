@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<ProjectSortOrder AutoSort="0" SortType="0">
+    <File Path="uDictionary.pas"/>
+    <File Path="UI.pas"/>
+    <File Path="UI.dfm"/>
+    <File Path="uLexer.pas"/>
+  </ProjectSortOrder>
+</BorlandProject>
